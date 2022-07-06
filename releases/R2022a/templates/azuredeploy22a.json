@@ -46,6 +46,7 @@
     },
     "Allow connections from": {
       "type": "string",
+      "defaultValue": "0.0.0.0/0",
       "metadata": {
         "description": "String identifying the client CIDR or IP range which will be allowed to use the solution."
       }
@@ -53,7 +54,7 @@
     "CreateAzureRedisCache": {
       "type": "string",
       "allowedValues": ["Yes", "No"],
-      "defaultValue": "Yes",
+      "defaultValue": "No",
       "metadata": {
         "description": "Specify whether you want to create an Azure Redis Cache that lets you use the data caching functionality on the server."
       }
@@ -68,7 +69,7 @@
     },
     "Platform": {
       "type": "string",
-      "defaultValue": "Linux",
+      "defaultValue": "Windows",
       "allowedValues": ["Windows", "Linux"],
       "metadata": {
         "description": "Select the operating system for the server."
