@@ -261,7 +261,7 @@
               "priority": 1000,
               "sourceAddressPrefix": "[parameters('Allow connections from')]",
               "protocol": "Tcp",
-              "destinationPortRange": "443",
+              "destinationPortRange": "440-450",
               "access": "Allow",
               "direction": "Inbound",
               "sourcePortRange": "*",
@@ -274,7 +274,33 @@
               "priority": 1001,
               "sourceAddressPrefix": "[parameters('Allow connections from')]",
               "protocol": "Tcp",
-              "destinationPortRange": "443",
+              "destinationPortRange": "440-450",
+              "access": "Allow",
+              "direction": "Inbound",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "[parameters('Subnet1CIDRRange')]"
+            }
+          },
+          {
+            "name": "appgw-http",
+            "properties": {
+              "priority": 1000,
+              "sourceAddressPrefix": "[parameters('Allow connections from')]",
+              "protocol": "Tcp",
+              "destinationPortRange": "80",
+              "access": "Allow",
+              "direction": "Inbound",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "[parameters('Subnet2CIDRRange')]"
+            }
+          },
+          {
+            "name": "nlm-http",
+            "properties": {
+              "priority": 1001,
+              "sourceAddressPrefix": "[parameters('Allow connections from')]",
+              "protocol": "Tcp",
+              "destinationPortRange": "80",
               "access": "Allow",
               "direction": "Inbound",
               "sourcePortRange": "*",
