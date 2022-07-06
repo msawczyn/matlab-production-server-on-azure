@@ -145,51 +145,51 @@
       "metadata": {
         "description": "Specify whether you want to deploy the Network License Manager for MATLAB."
       }
-    },
-    "CertificateInputType": {
-      "type": "string",
-      "metadata": {
-        "description": "Select if the Application Gateway will use an SSL certificate from the KeyVault or a base64-encoded PFX certificate string. If you select \"KeyVault\", enter values for \"ManagedIdentityResourceIDForKeyVault\" and \"KeyVaultCertificateSecretID\". If you select \"Base64-encoded PFX Certificate\", enter values for \"Base64EncodedPFXCertificateData\" and \"PasswordForBase64EncodedPFXCertificate\"."
-      },
-      "allowedValues": ["KeyVault", "Base64-encoded PFX Certificate"],
-      "defaultValue": "KeyVault"
-    },
-    "KeyVaultCertificateSecretID": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Secret ID of SSL certificate present in Key Vault."
-      },
-      "defaultValue": "" 
-    },
-    "ManagedIdentityResourceIDForKeyVault": {
-      "type": "string",
-      "metadata": {
-        "description": "Resource ID of the managed identity that has permission to access Key Vault."
-      },
-      "defaultValue": "" 
-    },
-    "Base64EncodedPFXCertificateData": {
-      "type": "string",
-      "metadata": {
-        "description": "Base64-encoded SSL certificate string in PFX format."
-      },
-      "defaultValue": "" 
-    },
-    "PasswordForBase64EncodedPFXCertificate": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Password for Base64-encoded SSL certificate."
-      },
-      "defaultValue": "" 
+	  
+							 
+					   
+				   
+																																																																																																									  
+		
+																	  
+								
+	  
+									
+							 
+				   
+																		   
+		
+						 
+	  
+											 
+					   
+				   
+																									 
+		
+						 
+	  
+										
+					   
+				   
+																			 
+		
+						 
+	  
+											   
+							 
+				   
+																	 
+		
+						 
     }
   },
   "variables": {
-    "ManagedIdentityResourceIDForKeyVault": {
-      "type": "UserAssigned",
-      "userAssignedIdentities": {
-        "[parameters('ManagedIdentityResourceIDForKeyVault')]": {}
-      }
-    },
+											 
+							 
+								 
+																  
+	   
+	  
     "AppGatewaySize": "Standard_v2",
     "AppGatewayCount": 1,
     "mpsDNSName": "[concat('mps',uniqueString( resourceGroup().id))]",
@@ -566,7 +566,7 @@
         "[resourceId('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
         "[resourceId('Microsoft.Network/publicIPAddresses/', variables('appGwPublicIPAddressName'))]"
       ],
-      "identity": "[if(equals(parameters('CertificateInputType'), 'KeyVault'), variables('ManagedIdentityResourceIDForKeyVault'), json('null'))]",
+      "identity": "[json('null')]",
       "tags": {
         "Description": "Application Gateway"
       },
@@ -576,16 +576,16 @@
           "tier": "Standard_v2",
           "capacity": "[variables('AppGatewayCount')]"
         },
-        "sslCertificates": [
-          {
-            "name": "appGatewayFrontEndSslCert",
-            "properties": {
-              "keyVaultSecretId": "[if(equals(parameters('CertificateInputType'), 'KeyVault'), parameters('KeyVaultCertificateSecretID'), json('null'))]",
-              "data": "[if(equals(parameters('CertificateInputType'), 'Base64-encoded PFX Certificate'), parameters('Base64EncodedPFXCertificateData'), json('null'))]",
-              "password": "[if(equals(parameters('CertificateInputType'), 'Base64-encoded PFX Certificate'), parameters('PasswordForBase64EncodedPFXCertificate'), json('null'))]"
-            }
-          }
-        ],
+							
+		   
+												
+						   
+																																						  
+																																										
+																																												  
+			 
+		   
+		  
         "gatewayIPConfigurations": [
           {
             "name": "appGwIpConfig",
@@ -689,10 +689,7 @@
               "FrontendPort": {
                 "Id": "[resourceId('Microsoft.Network/applicationGateways/frontendPorts', variables('appGwName'), 'mpsHttpPort')]"
               },
-              "Protocol": "Https",
-              "SslCertificate": {
-                "Id": "[resourceId('Microsoft.Network/applicationGateways/sslCertificates',variables('appGwName'), 'appGatewayFrontEndSslCert')]"
-              }
+              "Protocol": "Http"
             }
           },
           {
@@ -704,10 +701,7 @@
               "FrontendPort": {
                 "Id": "[resourceId('Microsoft.Network/applicationGateways/frontendPorts',variables('appGwName'),'mpsHttpPort2')]"
               },
-              "Protocol": "Https",
-              "SslCertificate": {
-                "Id": "[resourceId('Microsoft.Network/applicationGateways/sslCertificates',variables('appGwName'),'appGatewayFrontEndSslCert')]"
-              }
+              "Protocol": "Http"
             }
           },
           {
@@ -719,10 +713,7 @@
               "FrontendPort": {
                 "Id": "[resourceId('Microsoft.Network/applicationGateways/frontendPorts',variables('appGwName'),'dummyPort')]"
               },
-              "Protocol": "Https",
-              "SslCertificate": {
-                "Id": "[resourceId('Microsoft.Network/applicationGateways/sslCertificates',variables('appGwName'),'appGatewayFrontEndSslCert')]"
-              }
+              "Protocol": "Http"
             }
           },
           {
@@ -734,10 +725,7 @@
               "frontendPort": {
                 "Id": "[resourceId('Microsoft.Network/applicationGateways/frontendPorts',variables('appGwName'),'port_445')]"
               },
-              "protocol": "Https",
-              "sslCertificate": {
-                "Id": "[resourceId('Microsoft.Network/applicationGateways/sslCertificates',variables('appGwName'),'appGatewayFrontEndSslCert')]"
-              },
+              "protocol": "Http",
               "requireServerNameIndication": false
             }
           }
